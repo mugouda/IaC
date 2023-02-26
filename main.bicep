@@ -8,7 +8,7 @@ param networking object
 param tagEnvironment string = 'tst'
 param notificationEmail string
 var resourceSuffix = take(uniqueString(resourceGroup().name), 6)
-var shortLocation = 'we'//loadJsonContent('locations.json')[location]
+var shortLocation = loadJsonContent('locations.json')//[location]
 var resourceInfix = '${shortLocation}-${tagEnvironment}-fdm'
 
 resource vault 'Microsoft.KeyVault/vaults@2022-07-01' = {
