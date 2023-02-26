@@ -1,0 +1,15 @@
+name: MSDO
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run a one-line script
+        run: echo Hello, world!
+      - name: security-devops-action
+        uses: microsoft/security-devops-action@v1.6.0
+        with:
+          categories: 'IaC'
