@@ -22,25 +22,7 @@ var privateDnsZoneQueueName = 'privatelink.queue.${storageUrl}'
 var privateDnsZoneTableName = 'privatelink.table.${storageUrl}'
 var privateDnsZoneFileName = 'privatelink.file.${storageUrl}'
 
-resource privateDnsZoneBlob 'Microsoft.Network/privateDnsZones@2020-06-01' existing = {
-  name: privateDnsZoneBlobName
-}
 
-resource privateDnsZoneQueue 'Microsoft.Network/privateDnsZones@2020-06-01' existing = {
-  name: privateDnsZoneQueueName
-}
-
-resource privateDnsZoneTable 'Microsoft.Network/privateDnsZones@2020-06-01' existing = {
-  name: privateDnsZoneTableName
-}
-
-resource privateDnsZoneFile 'Microsoft.Network/privateDnsZones@2020-06-01' existing = {
-  name: privateDnsZoneFileName
-}
-
-resource datashare 'Microsoft.DataShare/accounts@2021-08-01' existing = {
-  name: datashareName
-}
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   name: storageName
@@ -284,25 +266,7 @@ resource functionApp 'Microsoft.Web/sites@2022-03-01' = {
   }
 }
 
-module appSettings 'func-app-settings.bicep' = {
-  name: 'analytics-managed-func-app-settings'
-  params: {
-    functionAppName: functionApp.name
-    existingSettings:'x'// list(resourceId('Microsoft.Web/sites/config', functionApp.name, 'appsettings'), '2022-03-01').properties
-    appSettings: {
-      AzureWebJobsStorage: 'x'//'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
-      WEBSITE_CONTENTAZUREFILECONNECTIONSTRING: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
-      APPLICATIONINSIGHTS_CONNECTION_STRING: appInsightsConnectionString
-      WEBSITE_CONTENTSHARE: functionContentShare.name
-      FUNCTIONS_EXTENSION_VERSION: '~4'
-      FUNCTIONS_WORKER_RUNTIME: 'python'
-      WEBSITE_CONTENTOVERVNET: '1'
-      AZURE_CLIENT_ID: '@Microsoft.KeyVault(VaultName=${vaultName};SecretName=analytics-sp-client-id)'
-      AZURE_TENANT_ID: '@Microsoft.KeyVault(VaultName=${vaultName};SecretName=tenantId)'
-      AZURE_CLIENT_SECRET: '@Microsoft.KeyVault(VaultName=${vaultName};SecretName=analytics-sp-client-secret)'
-    }
-  }
-}
+
 
 resource funcDiagSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   name: 'funcDiagSettings'
