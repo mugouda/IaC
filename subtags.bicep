@@ -31,4 +31,4 @@ resource getSubscriptionTagsScript 'Microsoft.Resources/deploymentScripts@2020-1
   }
 }
 
-output subscriptionDnsLabel string = getSubscriptionTagsScript.properties.outputs.x//['dns-label']
+output subscriptionDnsLabel string = getSubscriptionTagsScript.properties.outputs['dns-label']
