@@ -1,4 +1,4 @@
-name: CI
+name: Checkov
 on:
   workflow_dispatch:
 
